@@ -39,6 +39,7 @@ namespace autokGaraiGabor
         {
             InitializeComponent();
             db = new Database();
+            Closed += AutoView_Closed;
         }
 
         internal void SetAutoData(Auto auto)
@@ -135,6 +136,7 @@ namespace autokGaraiGabor
         private void VetelarEUR_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             SzamolAtvaltottErteket();
+            vetelarEURChanged = true;
         }
 
         private void ValutaComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -159,21 +161,20 @@ namespace autokGaraiGabor
 
         private double GetAtvaltasFaktor(string valuta)
         {
-            // Az átváltási faktorokat itt definiálhatod, például:
+            
             switch (valuta)
             {
                 case "HUF":
-                    return 382.34; // Az átváltási faktor HUF-hoz
+                    return 382.34; 
                 case "USD":
-                    return 1.12; // Az átváltási faktor USD-hez
-                                 // További valuták és azok átváltási faktorai
+                    return 1.12; 
+                                
                 default:
-                    return 1.0; // Alapértelmezett érték (nem történik átváltás)
+                    return 1.0; 
             }
         }
         private void ValutaComboBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Beállítjuk az alapértelmezett értéket "HUF"-ra
+        {       
             valutaComboBox.SelectedItem = valutaComboBox.Items[0];
         }
 
@@ -181,7 +182,6 @@ namespace autokGaraiGabor
         {
             TextBox textBox = (TextBox)sender;
 
-            // Az adott TextBox alapján beállítjuk a változás flag-et
             switch (textBox.Name)
             {
                 case "marka":
@@ -189,8 +189,7 @@ namespace autokGaraiGabor
                     break;
                 case "modell":
                     modellChanged = true;
-                    break;
-                    // További mezők hozzáadása szükség esetén
+                    break;                
             }
         }
 
@@ -205,9 +204,6 @@ namespace autokGaraiGabor
             {
                 case "gyartEv":
                     gyartEvChanged = true;
-                    break;
-                case "vetelarEUR":
-                    vetelarEURChanged = true;
                     break;
                 case "kmAllas":
                     kmAllasChanged = true;
@@ -231,6 +227,11 @@ namespace autokGaraiGabor
                     break;
             }
 
+        }
+        private void AutoView_Closed(object sender, EventArgs e)
+        {
+            
+            App.NavigateToPage("Home");
         }
     }
 }
